@@ -43,7 +43,7 @@ def get_top_performers(league_id, gw):
         })
     df = pd.DataFrame(data)
     df = df.sort_values(by="GW Score", ascending=False)
-    df["Weekly Rank"] = df["GW Score"].rank(method="dense", ascending=False).astype(int)
+    df["Weekly Rank"] = df["GW Score"].rank(method="min", ascending=False).astype(int)
 
     top_scores = df["GW Score"].unique()[:3]
     top_df = df[df["GW Score"].isin(top_scores)].reset_index(drop=True)
