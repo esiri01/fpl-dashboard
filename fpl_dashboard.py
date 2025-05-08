@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from operator import itemgetter
 
-LEAGUE_ID = "YOUR_LEAGUE_ID"  # Replace with actual League ID
+LEAGUE_ID = "696993"  # Replace with actual League ID
 
 @st.cache_data
 def get_events():
