@@ -1,112 +1,141 @@
 import streamlit as st
-import pandas as pd
 import requests
-import time
-from collections import Counter
+import pandas as pd
+from operator import itemgetter
 
-# ========== CONFIG ==========
-LEAGUE_ID = "696993"  # Replace with your real FPL league ID
+LEAGUE_ID = "696993"  # Replace with actual League ID
 
-# ========== API HELPERS ==========
+@st.cache_data
+def get_events():
+    url = "https://fantasy.premierleague.com/api/bootstrap-static/"
+    r = requests.get(url)
+    r.raise_for_status()
+    return r.json()["events"], r.json()["elements"]
 
-@st.cache_data(show_spinner=False)
+@st.cache_data
 def get_league_standings(league_id):
     url = f"https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings/"
     r = requests.get(url)
     r.raise_for_status()
     return r.json()["standings"]["results"]
 
-@st.cache_data(show_spinner=False)
-def get_players_dict():
-    url = "https://fantasy.premierleague.com/api/bootstrap-static/"
+@st.cache_data
+def get_manager_gw_score(entry_id, gw):
+    url = f"https://fantasy.premierleague.com/api/entry/{entry_id}/event/{gw}/picks/"
     r = requests.get(url)
     r.raise_for_status()
     data = r.json()
-    return {p["id"]: f'{p["first_name"]} {p["second_name"]}' for p in data["elements"]}
+    return {
+        "points": data["entry_history"]["points"],
+        "rank": data["entry_history"]["overall_rank"],
+        "captain_id": next(p["element"] for p in data["picks"] if p["is_captain"])
+    }
+
+@st.cache_data
+def get_entry_history(entry_id):
+    url = f"https://fantasy.premierleague.com/api/entry/{entry_id}/history/"
+    r = requests.get(url)
+    r.raise_for_status()
+    return r.json()["current"]
 
 def get_top_performers(league_id, gw, players_dict):
     standings = get_league_standings(league_id)
+    gw_data = []
 
-    results = []
-    captain_counter = Counter()
-
-    for entry in standings:
-        entry_id = entry["entry"]
-        manager_name = entry["entry_name"]
-        rank = entry["rank"]
-
+    for player in standings:
+        entry_id = player["entry"]
+        team = player["entry_name"]
+        manager = player["player_name"]
         try:
-            # Picks (for chip + captain)
-            picks_url = f"https://fantasy.premierleague.com/api/entry/{entry_id}/event/{gw}/picks/"
-            picks = requests.get(picks_url).json()
-            chip_used = picks.get("chip", "None")
-            captain_id = next((p["element"] for p in picks["picks"] if p["is_captain"]), None)
-            captain_name = players_dict.get(captain_id, "Unknown")
-            captain_counter[captain_name] += 1
-
-            # Event Summary (for points)
-            event_url = f"https://fantasy.premierleague.com/api/entry/{entry_id}/event/{gw}/"
-            event_data = requests.get(event_url).json()
-            points = event_data.get("points", None)
-
-            if points is None:
-                continue
-
-            results.append({
-                "Manager": manager_name,
-                "Points": points,
-                "Rank": rank,
-                "Chip Used": chip_used,
-                "Captain": captain_name
+            data = get_manager_gw_score(entry_id, gw)
+            gw_data.append({
+                "Team": team,
+                "Manager": manager,
+                "GW Score": data["points"],
+                "Overall Rank": data["rank"],
+                "Captain": players_dict[data["captain_id"]]["web_name"]
             })
-
-        except Exception as e:
-            print(f"Error for entry {entry_id}: {e}")
+        except:
             continue
 
-        time.sleep(0.4)  # Rate limit
+    df = pd.DataFrame(gw_data)
+    df = df.sort_values(by="GW Score", ascending=False)
 
-    if not results:
-        return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
+    # Preserve ties in top 3
+    top_scores = df["GW Score"].unique()[:3]
+    top_df = df[df["GW Score"].isin(top_scores)].reset_index(drop=True)
 
-    df = pd.DataFrame(results)
-    df = df.sort_values("Points", ascending=False)
+    return top_df, df
 
-    # Handle top 3 with ties
-    if len(df) <= 3:
-        top_df = df
-    else:
-        top_scores = df["Points"].nlargest(3).values
-        cutoff = top_scores[-1]
-        top_df = df[df["Points"] >= cutoff]
+def get_most_improved(df, last_gw_ranks):
+    df = df.copy()
+    df["Previous Rank"] = df["Manager"].map(last_gw_ranks)
+    df["Rank Change"] = df["Previous Rank"] - df["Overall Rank"]
+    return df.sort_values(by="Rank Change", ascending=False).head(1)
 
-    # Top captains
-    top_captains = pd.DataFrame(captain_counter.items(), columns=["Player", "Times Picked"])
-    top_captains = top_captains.sort_values("Times Picked", ascending=False)
+def get_rank_history(league_id):
+    standings = get_league_standings(league_id)
+    rank_history = {}
 
-    return top_df.reset_index(drop=True), df.reset_index(drop=True), top_captains
+    for player in standings:
+        manager = player["player_name"]
+        entry_id = player["entry"]
+        history = get_entry_history(entry_id)
+        gw_scores = [h["points"] for h in history]
+        rank_history[manager] = gw_scores
 
-# ========== STREAMLIT UI ==========
+    return pd.DataFrame(rank_history)
 
-st.set_page_config("FPL Weekly Dashboard", layout="wide")
-st.title("⚽ FPL Weekly Performance Dashboard")
+# --- Streamlit UI ---
+st.title("🏆 Fantasy Premier League Dashboard")
 
-players_dict = get_players_dict()
+events, elements = get_events()
+players_dict = {p["id"]: p for p in elements}
 
-selected_gw = st.selectbox("Select Gameweek", options=list(range(1, 39)), index=0)
+finished_gws = [e for e in events if e["finished"]]
+gameweek_options = [e["id"] for e in finished_gws]
+gameweek_names = [f"GW {e['id']}" for e in finished_gws]
+latest_gw = max(gameweek_options)
+
+selected_index = st.selectbox(
+    "Select Gameweek",
+    range(len(gameweek_options)),
+    index=len(gameweek_options) - 1,
+    format_func=lambda i: gameweek_names[i]
+)
+selected_gw = gameweek_options[selected_index]
 
 if st.button("Go"):
-    with st.spinner("Fetching data..."):
-        top_df, all_df, top_captains = get_top_performers(LEAGUE_ID, selected_gw, players_dict)
+    top_df, all_df = get_top_performers(LEAGUE_ID, selected_gw, players_dict)
 
-    if top_df.empty:
-        st.warning(f"No data available for Gameweek {selected_gw}. It may not have finished yet.")
-    else:
-        st.subheader("🏆 Top Performers of the Week")
-        st.table(top_df)
+    # 🏆 Highlight Winner
+    top_df.iloc[0, top_df.columns.get_loc("Team")] = "🏆 " + top_df.iloc[0]["Team"]
 
-        st.subheader("📋 Full League Standings for GW")
-        st.dataframe(all_df)
+    st.subheader(f"Top Performers – Gameweek {selected_gw}")
+    st.dataframe(top_df)
 
-        st.subheader("🧢 Most Chosen Captains")
-        st.table(top_captains)
+    st.download_button("📥 Download Top Performers", top_df.to_csv(index=False), "top_performers.csv", "text/csv")
+
+    # 🎯 Average Score
+    avg_score = all_df["GW Score"].mean()
+    st.metric("League Average Score", f"{avg_score:.1f}")
+
+    # 📈 Most Improved
+    if selected_gw > 1:
+        last_gw_data = get_top_performers(LEAGUE_ID, selected_gw - 1, players_dict)[1]
+        last_gw_ranks = dict(zip(last_gw_data["Manager"], last_gw_data["Overall Rank"]))
+        most_improved = get_most_improved(all_df, last_gw_ranks)
+        st.subheader("📈 Most Improved")
+        st.table(most_improved[["Manager", "Team", "Rank Change"]])
+
+    # 🔥 Captain Picks
+    top_captains = all_df["Captain"].value_counts().head(3)
+    st.subheader("🧠 Most Common Captains")
+    st.table(top_captains.reset_index(names=["Player", "Times Picked"]))
+
+    # 📊 Score Trends
+    st.subheader("📊 Score Trends of Top Managers")
+    rank_history_df = get_rank_history(LEAGUE_ID)
+    top_names = top_df["Manager"].tolist()
+    filtered = rank_history_df[top_names]
+    st.line_chart(filtered)
