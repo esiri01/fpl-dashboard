@@ -1,7 +1,6 @@
 import streamlit as st
 import requests
 import pandas as pd
-from operator import itemgetter
 
 LEAGUE_ID = "696993"  # Replace with actual League ID
 
@@ -25,104 +24,92 @@ def get_manager_gw_score(entry_id, gw):
     r = requests.get(url)
     r.raise_for_status()
     data = r.json()
-    return {
-        "points": data["entry_history"]["points"],
-        "overall_rank": data["entry_history"]["overall_rank"],
-        "captain_id": next((p["element"] for p in data["picks"] if p.get("is_captain")), None)
-    }
-
-@st.cache_data
-def get_entry_history(entry_id):
-    url = f"https://fantasy.premierleague.com/api/entry/{entry_id}/history/"
-    r = requests.get(url)
-    r.raise_for_status()
-    return r.json()["current"]
+    return data["entry_history"]["points"]
 
 
-def get_top_performers(league_id, gw, players_dict):
+def get_top_performers(league_id, gw):
+    # Fetch standings and compute weekly scores
     standings = get_league_standings(league_id)
-    gw_data = []
-
-    for player in standings:
-        entry_id = player["entry"]
-        team = player["entry_name"]
-        manager = player["player_name"]
-        group_rank = player.get("rank")
+    data = []
+    for p in standings:
+        entry_id = p["entry"]
         try:
-            data = get_manager_gw_score(entry_id, gw)
-            gw_data.append({
-                "Team": team,
-                "Manager": manager,
-                "GW Score": data["points"],
-                "Overall Rank": data["overall_rank"],
-                "Group Rank": group_rank,
-                "Captain": players_dict.get(data["captain_id"], {}).get("web_name", "N/A")
-            })
+            score = get_manager_gw_score(entry_id, gw)
         except:
             continue
-
-    df = pd.DataFrame(gw_data)
+        data.append({
+            "Team": p["entry_name"],
+            "Manager": p["player_name"],
+            "GW Score": score
+        })
+    df = pd.DataFrame(data)
+    # Sort and compute weekly rank with ties
     df = df.sort_values(by="GW Score", ascending=False)
+    df["Weekly Rank"] = df["GW Score"].rank(method="dense", ascending=False).astype(int)
 
-    # Preserve ties in top 3
+    # Determine top scores (first three unique scores)
     top_scores = df["GW Score"].unique()[:3]
     top_df = df[df["GW Score"].isin(top_scores)].reset_index(drop=True)
-
     return top_df, df
 
 
-def get_most_improved(df, last_group_ranks):
-    temp = df.copy()
-    temp["Previous Group Rank"] = temp["Manager"].map(last_group_ranks)
-    temp["Rank Change"] = temp["Previous Group Rank"] - temp["Group Rank"]
+def get_most_improved(current_df, previous_df):
+    # Map previous weekly ranks
+    prev_ranks = previous_df.set_index("Manager")["Weekly Rank"].to_dict()
+    temp = current_df.copy()
+    temp["Previous Weekly Rank"] = temp["Manager"].map(prev_ranks)
+    temp["Rank Change"] = temp["Previous Weekly Rank"] - temp["Weekly Rank"]
     return temp.sort_values(by="Rank Change", ascending=False).head(1)
 
 # --- Streamlit UI ---
 st.title("🏆 Fantasy Premier League Dashboard")
 
 events, elements = get_events()
-players_dict = {p["id"]: p for p in elements}
+finished = [e for e in events if e["finished"]]
+gws = [e["id"] for e in finished]
+gw_labels = [f"GW {id}" for id in gws]
 
-finished_gws = [e for e in events if e["finished"]]
-gameweek_options = [e["id"] for e in finished_gws]
-gameweek_names = [f"GW {e['id']}" for e in finished_gws]
-
-selected_index = st.selectbox(
-    "Select Gameweek",
-    range(len(gameweek_options)),
-    index=len(gameweek_options) - 1,
-    format_func=lambda i: gameweek_names[i]
-)
-selected_gw = gameweek_options[selected_index]
+sel = st.selectbox("Select Gameweek", range(len(gws)), index=len(gws)-1, format_func=lambda i: gw_labels[i])
+current_gw = gws[sel]
 
 if st.button("Go"):
-    top_df, all_df = get_top_performers(LEAGUE_ID, selected_gw, players_dict)
+    top_df, all_df = get_top_performers(LEAGUE_ID, current_gw)
 
-    # 🏆 Highlight Winner
-    if not top_df.empty:
-        top_df.iloc[0, top_df.columns.get_loc("Team")] = "🏆 " + top_df.iloc[0]["Team"]
+    # Highlight all winners (rank 1)
+    top_df.loc[top_df["Weekly Rank"] == 1, "Team"] = "🏆 " + top_df.loc[top_df["Weekly Rank"] == 1, "Team"]
 
-    st.subheader(f"Top Performers – Gameweek {selected_gw}")
-    st.dataframe(top_df)
+    st.subheader(f"Top Performers – Gameweek {current_gw}")
+    # Hide default index
+    st.table(top_df.style.hide_index())
 
-    # 🎯 Average Score
-    avg_score = all_df["GW Score"].mean() if not all_df.empty else 0
-    st.metric("League Average Score", f"{avg_score:.1f}")
+    # League Average
+    avg = all_df["GW Score"].mean()
+    st.metric("League Average Score", f"{avg:.1f}")
 
-    # 📈 Most Improved based on Group Rank
-    if selected_gw > 1:
-        _, last_df = get_top_performers(LEAGUE_ID, selected_gw - 1, players_dict)
-        last_group_ranks = dict(zip(last_df["Manager"], last_df["Group Rank"]))
-        most_improved = get_most_improved(all_df, last_group_ranks)
-        st.subheader("📈 Most Improved (Group Rank)")
-        st.table(most_improved[["Manager", "Team", "Rank Change"]])
+    # Most Improved based on Weekly Rank
+    if current_gw > min(gws):
+        _, prev_df = get_top_performers(LEAGUE_ID, current_gw-1)
+        # Ensure both have Weekly Rank
+        improved = get_most_improved(all_df, prev_df)
+        st.subheader("📈 Most Improved (Weekly Rank)")
+        st.table(improved[["Manager","Team","Rank Change"]].style.hide_index())
 
-    # 🧠 Most Common Captains
+    # Captain picks
     st.subheader("🧠 Most Common Captains")
-    if all_df["Captain"].dropna().any():
-        top_captains = all_df["Captain"].value_counts().head(3)
-        captain_df = top_captains.reset_index()
-        captain_df.columns = ["Player", "Times Picked"]
-        st.table(captain_df)
-    else:
-        st.warning("No captain data available.")
+    # fetch picks for all
+    caps = []
+    for p in standings:
+        entry_id = p["entry"]
+        try:
+            picks = requests.get(f"https://fantasy.premierleague.com/api/entry/{entry_id}/event/{current_gw}/picks/").json()["picks"]
+            cap = next(item for item in picks if item.get("is_captain"))["element"]
+            caps.append(cap)
+        except:
+            continue
+    # map id to name
+    names = {el["id"]: el["web_name"] for el in elements}
+    cap_names = [names.get(c) for c in caps]
+    cap_series = pd.Series(cap_names).value_counts().head(3)
+    cap_df = cap_series.reset_index()
+    cap_df.columns = ["Player","Times Picked"]
+    st.table(cap_df.style.hide_index())
