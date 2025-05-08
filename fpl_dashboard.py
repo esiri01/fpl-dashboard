@@ -58,7 +58,7 @@ def get_most_improved(current_df, previous_df):
     return temp.sort_values(by="Rank Change", ascending=False).head(1)
 
 # --- Streamlit UI ---
-st.title("🏆 Fantasy Premier League Dashboard")
+st.title("🏆 FPL Mech Peeps Dashboard")
 
 events, elements = get_events()
 finished = [e for e in events if e["finished"]]
