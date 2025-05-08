@@ -128,10 +128,20 @@ if st.button("Go"):
         st.subheader("📈 Most Improved")
         st.table(most_improved[["Manager", "Team", "Rank Change"]])
 
-    # 🔥 Captain Picks
-    top_captains = all_df["Captain"].value_counts().head(3)
+    # 🧠 Most Common Captains
     st.subheader("🧠 Most Common Captains")
-    st.table(top_captains.reset_index(names=["Player", "Times Picked"]))
+    if all_df["Captain"].notna().any():
+        # Get most common captains
+        top_captains = all_df["Captain"].value_counts().head(3)
+
+        # Create a DataFrame for better visualization
+        captain_df = top_captains.reset_index(names=["Player", "Times Picked"])
+
+        # Display it as a table
+        st.table(captain_df)
+    else:
+        st.warning("No captain data available.")
+
 
     # 📊 Score Trends
     st.subheader("📊 Score Trends of Top Managers")
