@@ -28,7 +28,7 @@ def get_manager_gw_score(entry_id, gw):
     return {
         "points": data["entry_history"]["points"],
         "rank": data["entry_history"]["overall_rank"],
-        "captain_id": next(p["element"] for p in data["picks"] if p["is_captain"])
+        "captain_id": next((p["element"] for p in data["picks"] if p.get("is_captain")), None)
     }
 
 @st.cache_data
@@ -38,6 +38,7 @@ def get_entry_history(entry_id):
     r.raise_for_status()
     return r.json()["current"]
 
+
 def get_top_performers(league_id, gw, players_dict):
     standings = get_league_standings(league_id)
     gw_data = []
@@ -46,6 +47,7 @@ def get_top_performers(league_id, gw, players_dict):
         entry_id = player["entry"]
         team = player["entry_name"]
         manager = player["player_name"]
+        group_rank = player.get("rank")
         try:
             data = get_manager_gw_score(entry_id, gw)
             gw_data.append({
@@ -53,7 +55,8 @@ def get_top_performers(league_id, gw, players_dict):
                 "Manager": manager,
                 "GW Score": data["points"],
                 "Overall Rank": data["rank"],
-                "Captain": players_dict[data["captain_id"]]["web_name"]
+                "Group Rank": group_rank,
+                "Captain": players_dict.get(data["captain_id"], {}).get("web_name", "N/A")
             })
         except:
             continue
@@ -67,24 +70,12 @@ def get_top_performers(league_id, gw, players_dict):
 
     return top_df, df
 
+
 def get_most_improved(df, last_gw_ranks):
     df = df.copy()
     df["Previous Rank"] = df["Manager"].map(last_gw_ranks)
     df["Rank Change"] = df["Previous Rank"] - df["Overall Rank"]
     return df.sort_values(by="Rank Change", ascending=False).head(1)
-
-def get_rank_history(league_id):
-    standings = get_league_standings(league_id)
-    rank_history = {}
-
-    for player in standings:
-        manager = player["player_name"]
-        entry_id = player["entry"]
-        history = get_entry_history(entry_id)
-        gw_scores = [h["points"] for h in history]
-        rank_history[manager] = gw_scores
-
-    return pd.DataFrame(rank_history)
 
 # --- Streamlit UI ---
 st.title("🏆 Fantasy Premier League Dashboard")
@@ -95,7 +86,6 @@ players_dict = {p["id"]: p for p in elements}
 finished_gws = [e for e in events if e["finished"]]
 gameweek_options = [e["id"] for e in finished_gws]
 gameweek_names = [f"GW {e['id']}" for e in finished_gws]
-latest_gw = max(gameweek_options)
 
 selected_index = st.selectbox(
     "Select Gameweek",
@@ -109,29 +99,30 @@ if st.button("Go"):
     top_df, all_df = get_top_performers(LEAGUE_ID, selected_gw, players_dict)
 
     # 🏆 Highlight Winner
-    top_df.iloc[0, top_df.columns.get_loc("Team")] = "🏆 " + top_df.iloc[0]["Team"]
+    if not top_df.empty:
+        top_df.iloc[0, top_df.columns.get_loc("Team")] = "🏆 " + top_df.iloc[0]["Team"]
 
     st.subheader(f"Top Performers – Gameweek {selected_gw}")
     st.dataframe(top_df)
 
-    st.download_button("📥 Download Top Performers", top_df.to_csv(index=False), "top_performers.csv", "text/csv")
-
     # 🎯 Average Score
-    avg_score = all_df["GW Score"].mean()
+    avg_score = all_df["GW Score"].mean() if not all_df.empty else 0
     st.metric("League Average Score", f"{avg_score:.1f}")
 
     # 📈 Most Improved
     if selected_gw > 1:
-        last_gw_data = get_top_performers(LEAGUE_ID, selected_gw - 1, players_dict)[1]
-        last_gw_ranks = dict(zip(last_gw_data["Manager"], last_gw_data["Overall Rank"]))
-        most_improved = get_most_improved(all_df, last_gw_ranks)
+        _, last_df = get_top_performers(LEAGUE_ID, selected_gw - 1, players_dict)
+        last_ranks = dict(zip(last_df["Manager"], last_df["Overall Rank"]))
+        most_improved = get_most_improved(all_df, last_ranks)
         st.subheader("📈 Most Improved")
         st.table(most_improved[["Manager", "Team", "Rank Change"]])
 
-
-    # 📊 Score Trends
-    st.subheader("📊 Score Trends of Top Managers")
-    rank_history_df = get_rank_history(LEAGUE_ID)
-    top_names = top_df["Manager"].tolist()
-    filtered = rank_history_df[top_names]
-    st.line_chart(filtered)
+    # 🧠 Most Common Captains
+    st.subheader("🧠 Most Common Captains")
+    if all_df["Captain"].dropna().any():
+        top_captains = all_df["Captain"].value_counts().head(3)
+        captain_df = top_captains.reset_index()
+        captain_df.columns = ["Player", "Times Picked"]
+        st.table(captain_df)
+    else:
+        st.warning("No captain data available.")
