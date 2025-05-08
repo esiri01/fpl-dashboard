@@ -28,7 +28,6 @@ def get_manager_gw_score(entry_id, gw):
 
 
 def get_top_performers(league_id, gw):
-    # Fetch standings and compute weekly scores
     standings = get_league_standings(league_id)
     data = []
     for p in standings:
@@ -43,18 +42,15 @@ def get_top_performers(league_id, gw):
             "GW Score": score
         })
     df = pd.DataFrame(data)
-    # Sort and compute weekly rank with ties
     df = df.sort_values(by="GW Score", ascending=False)
     df["Weekly Rank"] = df["GW Score"].rank(method="dense", ascending=False).astype(int)
 
-    # Determine top scores (first three unique scores)
     top_scores = df["GW Score"].unique()[:3]
     top_df = df[df["GW Score"].isin(top_scores)].reset_index(drop=True)
     return top_df, df
 
 
 def get_most_improved(current_df, previous_df):
-    # Map previous weekly ranks
     prev_ranks = previous_df.set_index("Manager")["Weekly Rank"].to_dict()
     temp = current_df.copy()
     temp["Previous Weekly Rank"] = temp["Manager"].map(prev_ranks)
@@ -73,43 +69,40 @@ sel = st.selectbox("Select Gameweek", range(len(gws)), index=len(gws)-1, format_
 current_gw = gws[sel]
 
 if st.button("Go"):
+    # Fetch data
     top_df, all_df = get_top_performers(LEAGUE_ID, current_gw)
 
-    # Highlight all winners (rank 1)
+    # Highlight winners
     top_df.loc[top_df["Weekly Rank"] == 1, "Team"] = "🏆 " + top_df.loc[top_df["Weekly Rank"] == 1, "Team"]
 
     st.subheader(f"Top Performers – Gameweek {current_gw}")
-    # Hide default index
-    st.table(top_df.style.hide_index())
+    st.table(top_df.reset_index(drop=True))
 
     # League Average
-    avg = all_df["GW Score"].mean()
+    avg = all_df["GW Score"].mean() if not all_df.empty else 0
     st.metric("League Average Score", f"{avg:.1f}")
 
-    # Most Improved based on Weekly Rank
+    # Most Improved
     if current_gw > min(gws):
         _, prev_df = get_top_performers(LEAGUE_ID, current_gw-1)
-        # Ensure both have Weekly Rank
         improved = get_most_improved(all_df, prev_df)
         st.subheader("📈 Most Improved (Weekly Rank)")
-        st.table(improved[["Manager","Team","Rank Change"]].style.hide_index())
+        st.table(improved[["Manager", "Team", "Rank Change"]].reset_index(drop=True))
 
-    # Captain picks
+    # Most Common Captains
     st.subheader("🧠 Most Common Captains")
-    # fetch picks for all
-    caps = []
+    standings = get_league_standings(LEAGUE_ID)
+    cap_ids = []
     for p in standings:
-        entry_id = p["entry"]
         try:
-            picks = requests.get(f"https://fantasy.premierleague.com/api/entry/{entry_id}/event/{current_gw}/picks/").json()["picks"]
+            picks = requests.get(f"https://fantasy.premierleague.com/api/entry/{p['entry']}/event/{current_gw}/picks/").json()["picks"]
             cap = next(item for item in picks if item.get("is_captain"))["element"]
-            caps.append(cap)
+            cap_ids.append(cap)
         except:
             continue
-    # map id to name
-    names = {el["id"]: el["web_name"] for el in elements}
-    cap_names = [names.get(c) for c in caps]
+    name_map = {el["id"]: el["web_name"] for el in elements}
+    cap_names = [name_map.get(c, "N/A") for c in cap_ids]
     cap_series = pd.Series(cap_names).value_counts().head(3)
     cap_df = cap_series.reset_index()
-    cap_df.columns = ["Player","Times Picked"]
-    st.table(cap_df.style.hide_index())
+    cap_df.columns = ["Player", "Times Picked"]
+    st.table(cap_df.reset_index(drop=True))
