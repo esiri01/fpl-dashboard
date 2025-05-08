@@ -82,12 +82,6 @@ if st.button("Go"):
     avg = all_df["GW Score"].mean() if not all_df.empty else 0
     st.metric("League Average Score", f"{avg:.1f}")
 
-    # Most Improved
-    if current_gw > min(gws):
-        _, prev_df = get_top_performers(LEAGUE_ID, current_gw-1)
-        improved = get_most_improved(all_df, prev_df)
-        st.subheader("📈 Most Improved (Weekly Rank)")
-        st.table(improved[["Manager", "Team", "Rank Change"]].reset_index(drop=True))
 
     # Most Common Captains
     st.subheader("🧠 Most Common Captains")
