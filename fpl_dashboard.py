@@ -27,7 +27,7 @@ def get_manager_gw_score(entry_id, gw):
     data = r.json()
     return {
         "points": data["entry_history"]["points"],
-        "rank": data["entry_history"]["overall_rank"],
+        "overall_rank": data["entry_history"]["overall_rank"],
         "captain_id": next((p["element"] for p in data["picks"] if p.get("is_captain")), None)
     }
 
@@ -54,7 +54,7 @@ def get_top_performers(league_id, gw, players_dict):
                 "Team": team,
                 "Manager": manager,
                 "GW Score": data["points"],
-                "Overall Rank": data["rank"],
+                "Overall Rank": data["overall_rank"],
                 "Group Rank": group_rank,
                 "Captain": players_dict.get(data["captain_id"], {}).get("web_name", "N/A")
             })
@@ -71,11 +71,11 @@ def get_top_performers(league_id, gw, players_dict):
     return top_df, df
 
 
-def get_most_improved(df, last_gw_ranks):
-    df = df.copy()
-    df["Previous Rank"] = df["Manager"].map(last_gw_ranks)
-    df["Rank Change"] = df["Previous Rank"] - df["Overall Rank"]
-    return df.sort_values(by="Rank Change", ascending=False).head(1)
+def get_most_improved(df, last_group_ranks):
+    temp = df.copy()
+    temp["Previous Group Rank"] = temp["Manager"].map(last_group_ranks)
+    temp["Rank Change"] = temp["Previous Group Rank"] - temp["Group Rank"]
+    return temp.sort_values(by="Rank Change", ascending=False).head(1)
 
 # --- Streamlit UI ---
 st.title("🏆 Fantasy Premier League Dashboard")
@@ -109,12 +109,12 @@ if st.button("Go"):
     avg_score = all_df["GW Score"].mean() if not all_df.empty else 0
     st.metric("League Average Score", f"{avg_score:.1f}")
 
-    # 📈 Most Improved
+    # 📈 Most Improved based on Group Rank
     if selected_gw > 1:
         _, last_df = get_top_performers(LEAGUE_ID, selected_gw - 1, players_dict)
-        last_ranks = dict(zip(last_df["Manager"], last_df["Overall Rank"]))
-        most_improved = get_most_improved(all_df, last_ranks)
-        st.subheader("📈 Most Improved")
+        last_group_ranks = dict(zip(last_df["Manager"], last_df["Group Rank"]))
+        most_improved = get_most_improved(all_df, last_group_ranks)
+        st.subheader("📈 Most Improved (Group Rank)")
         st.table(most_improved[["Manager", "Team", "Rank Change"]])
 
     # 🧠 Most Common Captains
