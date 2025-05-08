@@ -4,10 +4,10 @@ import requests
 import time
 from collections import Counter
 
-# ========== CONFIGURATION ==========
-LEAGUE_ID = "696993" # Replace this with your actual FPL league ID
+# ========== CONFIG ==========
+LEAGUE_ID = "696993"  # Replace with your real FPL league ID
 
-# ========== API FUNCTIONS ==========
+# ========== API HELPERS ==========
 
 @st.cache_data(show_spinner=False)
 def get_league_standings(league_id):
@@ -22,14 +22,12 @@ def get_players_dict():
     r = requests.get(url)
     r.raise_for_status()
     data = r.json()
-    elements = data["elements"]
-    players = {p["id"]: f'{p["first_name"]} {p["second_name"]}' for p in elements}
-    return players
+    return {p["id"]: f'{p["first_name"]} {p["second_name"]}' for p in data["elements"]}
 
 def get_top_performers(league_id, gw, players_dict):
     standings = get_league_standings(league_id)
 
-    result = []
+    results = []
     captain_counter = Counter()
 
     for entry in standings:
@@ -38,6 +36,7 @@ def get_top_performers(league_id, gw, players_dict):
         rank = entry["rank"]
 
         try:
+            # Picks (for chip + captain)
             picks_url = f"https://fantasy.premierleague.com/api/entry/{entry_id}/event/{gw}/picks/"
             picks = requests.get(picks_url).json()
             chip_used = picks.get("chip", "None")
@@ -45,11 +44,15 @@ def get_top_performers(league_id, gw, players_dict):
             captain_name = players_dict.get(captain_id, "Unknown")
             captain_counter[captain_name] += 1
 
-            entry_url = f"https://fantasy.premierleague.com/api/entry/{entry_id}/event/{gw}/"
-            event_data = requests.get(entry_url).json()
-            points = event_data.get("points", 0)
+            # Event Summary (for points)
+            event_url = f"https://fantasy.premierleague.com/api/entry/{entry_id}/event/{gw}/"
+            event_data = requests.get(event_url).json()
+            points = event_data.get("points", None)
 
-            result.append({
+            if points is None:
+                continue
+
+            results.append({
                 "Manager": manager_name,
                 "Points": points,
                 "Rank": rank,
@@ -58,47 +61,52 @@ def get_top_performers(league_id, gw, players_dict):
             })
 
         except Exception as e:
-            print(f"Error fetching data for {entry_id}: {e}")
+            print(f"Error for entry {entry_id}: {e}")
             continue
 
-        time.sleep(0.5)
+        time.sleep(0.4)  # Rate limit
 
-    df = pd.DataFrame(result)
+    if not results:
+        return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
+
+    df = pd.DataFrame(results)
     df = df.sort_values("Points", ascending=False)
-    top_score = df["Points"].nlargest(3).values
-    cutoff = top_score[-1] if len(top_score) == 3 else top_score[-1]
-    top_df = df[df["Points"] >= cutoff].reset_index(drop=True)
+
+    # Handle top 3 with ties
+    if len(df) <= 3:
+        top_df = df
+    else:
+        top_scores = df["Points"].nlargest(3).values
+        cutoff = top_scores[-1]
+        top_df = df[df["Points"] >= cutoff]
 
     # Top captains
     top_captains = pd.DataFrame(captain_counter.items(), columns=["Player", "Times Picked"])
     top_captains = top_captains.sort_values("Times Picked", ascending=False)
 
-    return top_df, df.reset_index(drop=True), top_captains
+    return top_df.reset_index(drop=True), df.reset_index(drop=True), top_captains
 
 # ========== STREAMLIT UI ==========
 
-st.set_page_config(page_title="FPL Weekly Dashboard", layout="wide")
-
+st.set_page_config("FPL Weekly Dashboard", layout="wide")
 st.title("⚽ FPL Weekly Performance Dashboard")
 
 players_dict = get_players_dict()
 
-selected_gw = st.number_input("Select Gameweek", min_value=1, max_value=38, value=1)
+selected_gw = st.selectbox("Select Gameweek", options=list(range(1, 39)), index=0)
 
 if st.button("Go"):
-    try:
+    with st.spinner("Fetching data..."):
         top_df, all_df, top_captains = get_top_performers(LEAGUE_ID, selected_gw, players_dict)
 
+    if top_df.empty:
+        st.warning(f"No data available for Gameweek {selected_gw}. It may not have finished yet.")
+    else:
         st.subheader("🏆 Top Performers of the Week")
         st.table(top_df)
 
-        st.subheader("📋 Full Standings")
+        st.subheader("📋 Full League Standings for GW")
         st.dataframe(all_df)
 
         st.subheader("🧢 Most Chosen Captains")
         st.table(top_captains)
-
-    except requests.HTTPError as e:
-        st.error(f"HTTP Error: {e}")
-    except Exception as e:
-        st.error(f"Something went wrong: {e}")
