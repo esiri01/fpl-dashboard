@@ -65,6 +65,11 @@ finished = [e for e in events if e["finished"]]
 gws = [e["id"] for e in finished]
 gw_labels = [f"GW {id}" for id in gws]
 
+if st.button("🔁 Refresh Gameweek List"):
+    st.cache_data.clear()
+    st.experimental_rerun()
+
+
 sel = st.selectbox("Select Gameweek", range(len(gws)), index=len(gws)-1, format_func=lambda i: gw_labels[i])
 current_gw = gws[sel]
 
