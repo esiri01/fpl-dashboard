@@ -62,13 +62,19 @@ st.title("🏆 FPL Mech Peeps Dashboard")
 events, elements = get_events()
 
 # Option to include in-progress Gameweeks
-show_unfinished = st.checkbox("Show in-progress Gameweeks", value=False)
+show_in_progress = st.checkbox("Show in-progress Gameweeks", value=False)
+
+# Check the raw events data for debugging
+st.write("Raw events data:", events)
 
 # Filter available Gameweeks based on checkbox selection
-if show_unfinished:
-    available = [e for e in events if e["data_checked"]]
+if show_in_progress:
+    available = [e for e in events if e["data_checked"] or e["finished"]]
 else:
     available = [e for e in events if e["finished"]]
+
+# Show a debug log of available GWs
+st.write("Available Gameweeks:", available)
 
 gws = [e["id"] for e in available]
 gw_labels = [e["name"] for e in available]
