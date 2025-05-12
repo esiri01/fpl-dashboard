@@ -4,21 +4,21 @@ import pandas as pd
 
 LEAGUE_ID = "696993"  # Replace with actual League ID
 
-@st.cache_data
+@st.cache_data(ttl=3600)
 def get_events():
     url = "https://fantasy.premierleague.com/api/bootstrap-static/"
     r = requests.get(url)
     r.raise_for_status()
     return r.json()["events"], r.json()["elements"]
 
-@st.cache_data
+@st.cache_data(ttl=3600)
 def get_league_standings(league_id):
     url = f"https://fantasy.premierleague.com/api/leagues-classic/{league_id}/standings/"
     r = requests.get(url)
     r.raise_for_status()
     return r.json()["standings"]["results"]
 
-@st.cache_data
+@st.cache_data(ttl=3600)
 def get_manager_gw_score(entry_id, gw):
     url = f"https://fantasy.premierleague.com/api/entry/{entry_id}/event/{gw}/picks/"
     r = requests.get(url)
