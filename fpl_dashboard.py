@@ -75,8 +75,6 @@ current_gameweek = next((e for e in events if e["is_current"]), None)
 if current_gameweek:
     available.append(current_gameweek)
 
-# Show a debug log of available GWs
-st.write("Available Gameweeks:", available)
 
 # Prepare the list of Gameweek ids and labels
 gws = [e["id"] for e in available]
