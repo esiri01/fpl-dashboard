@@ -66,9 +66,17 @@ if st.session_state.get("refresh", False):
 else:
     events, elements = get_events()
 
-finished = [e for e in events if e["finished"]]
-gws = [e["id"] for e in finished]
-gw_labels = [f"GW {id}" for id in gws]
+
+# Option to include in-progress Gameweeks
+show_unfinished = st.checkbox("Show in-progress Gameweeks", value=False)
+
+if show_unfinished:
+    available = [e for e in events if e["data_checked"]]
+else:
+    available = [e for e in events if e["finished"]]
+
+gws = [e["id"] for e in available]
+gw_labels = [e["name"] for e in available]
 
 sel = st.selectbox("Select Gameweek", range(len(gws)), index=len(gws)-1, format_func=lambda i: gw_labels[i])
 current_gw = gws[sel]
