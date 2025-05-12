@@ -64,18 +64,21 @@ events, elements = get_events()
 # Option to include in-progress Gameweeks
 show_in_progress = st.checkbox("Show in-progress Gameweeks", value=False)
 
-# Check the raw events data for debugging
-st.write("Raw events data:", events)
-
 # Filter available Gameweeks based on checkbox selection
 if show_in_progress:
     available = [e for e in events if e["data_checked"] or e["finished"]]
 else:
     available = [e for e in events if e["finished"]]
 
+# Always add the current Gameweek
+current_gameweek = next((e for e in events if e["is_current"]), None)
+if current_gameweek:
+    available.append(current_gameweek)
+
 # Show a debug log of available GWs
 st.write("Available Gameweeks:", available)
 
+# Prepare the list of Gameweek ids and labels
 gws = [e["id"] for e in available]
 gw_labels = [e["name"] for e in available]
 
