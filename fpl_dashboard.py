@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 
-LEAGUE_ID = "696993"  # Replace with actual League ID
+LEAGUE_ID = "416802"  # Replace with actual League ID
 
 @st.cache_data
 def get_events():
