@@ -94,20 +94,15 @@ current_gw = labels_to_id[selected_label]
 # Find selected GW event info for status
 selected_event = next((e for e in events if e["id"] == current_gw), None)
 if selected_event:
-    # GW ongoing: started but not finished
     deadline = pd.to_datetime(selected_event["deadline_time"], utc=True)
     finished = selected_event.get("finished", False)
-    is_current = selected_event.get("is_current", False)
     now = pd.Timestamp.now(tz='UTC')
-    status_str = ""
-    if not finished and is_current:
-        status_str = f"🟢 Gameweek {selected_label} is currently ongoing (Deadline: {deadline.strftime('%Y-%m-%d %H:%M UTC')})"
-    elif finished:
-        status_str = f"✅ Gameweek {selected_label} has finished."
-    else:
-        # GW not started yet
-        status_str = f"🕒 Gameweek {selected_label} not started yet (Deadline: {deadline.strftime('%Y-%m-%d %H:%M UTC')})"
-    st.info(status_str)
+    # Only show "ongoing" or "completed"
+    if finished:
+        st.info(f"✅ Gameweek {selected_label} is completed.")
+    elif deadline <= now:
+        st.info(f"🟢 Gameweek {selected_label} is ongoing.")
+    # If deadline in future and not finished, you may omit status or show not started if you prefer
 
 if st.button("Go"):
     # Top performers
