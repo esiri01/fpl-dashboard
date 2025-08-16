@@ -99,9 +99,9 @@ if selected_event:
     now = pd.Timestamp.now(tz='UTC')
     # Only show "ongoing" or "completed"
     if finished:
-        st.info(f"✅ Gameweek {selected_label} is completed.")
+        st.info(f"✅ {selected_label} is completed.")
     elif deadline <= now:
-        st.info(f"🟢 Gameweek {selected_label} is ongoing.")
+        st.info(f"🟢 {selected_label} is ongoing.")
     # If deadline in future and not finished, you may omit status or show not started if you prefer
 
 if st.button("Go"):
