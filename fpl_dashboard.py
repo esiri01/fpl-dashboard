@@ -68,11 +68,8 @@ st.title("🏆 FPL Mech Peeps Dashboard")
 
 events, elements = get_events_and_elements()
 
-# Build available GWs: finished/checked + always include current if present
-available = [e for e in events if e.get("data_checked") or e.get("finished")]
-current_event = next((e for e in events if e.get("is_current")), None)
-if current_event and all(ev["id"] != current_event["id"] for ev in available):
-    available.append(current_event)
+# Build available GWs: finished/checked/current
+available = [e for e in events if e.get("data_checked") or e.get("finished") or e.get("is_current")]
 
 # De-duplicate & sort by id
 by_id = {e["id"]: e for e in available}
