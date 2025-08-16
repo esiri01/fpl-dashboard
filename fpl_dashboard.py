@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import pandas as pd
+from datetime import datetime
 
 LEAGUE_ID = "416802"  # Replace with your League ID
 
@@ -68,20 +69,45 @@ st.title("🏆 FPL Mech Peeps Dashboard")
 
 events, elements = get_events_and_elements()
 
-# Build available GWs: finished/checked/current
-available = [e for e in events if e.get("data_checked") or e.get("finished") or e.get("is_current")]
+# Build available GWs: finished/checked/current OR already started (deadline has passed)
+now = pd.Timestamp.now(tz='UTC')
+available = [
+    e for e in events
+    if e.get("is_current") or e.get("data_checked") or e.get("finished")
+    or (e.get("deadline_time") and pd.to_datetime(e["deadline_time"], utc=True) <= now)
+]
 
 # De-duplicate & sort by id
 by_id = {e["id"]: e for e in available}
 available = [by_id[k] for k in sorted(by_id.keys())]
 
-# Removed "No Gameweeks are available yet" logic.
-
-# Select by label (robust)
 labels_to_id = {e["name"]: e["id"] for e in available}
 labels = list(labels_to_id.keys())
+
+if not labels:
+    st.warning("No available Gameweeks detected.")
+    st.stop()
+
 selected_label = st.selectbox("Select Gameweek", labels, index=len(labels) - 1)
 current_gw = labels_to_id[selected_label]
+
+# Find selected GW event info for status
+selected_event = next((e for e in events if e["id"] == current_gw), None)
+if selected_event:
+    # GW ongoing: started but not finished
+    deadline = pd.to_datetime(selected_event["deadline_time"], utc=True)
+    finished = selected_event.get("finished", False)
+    is_current = selected_event.get("is_current", False)
+    now = pd.Timestamp.now(tz='UTC')
+    status_str = ""
+    if not finished and is_current:
+        status_str = f"🟢 Gameweek {selected_label} is currently ongoing (Deadline: {deadline.strftime('%Y-%m-%d %H:%M UTC')})"
+    elif finished:
+        status_str = f"✅ Gameweek {selected_label} has finished."
+    else:
+        # GW not started yet
+        status_str = f"🕒 Gameweek {selected_label} not started yet (Deadline: {deadline.strftime('%Y-%m-%d %H:%M UTC')})"
+    st.info(status_str)
 
 if st.button("Go"):
     # Top performers
