@@ -75,10 +75,7 @@ available = [e for e in events if e.get("data_checked") or e.get("finished") or 
 by_id = {e["id"]: e for e in available}
 available = [by_id[k] for k in sorted(by_id.keys())]
 
-# Handle "no gameweek yet"
-if not available:
-    st.info("No Gameweeks are available yet. Check back after the first deadline passes.")
-    st.stop()
+# Removed "No Gameweeks are available yet" logic.
 
 # Select by label (robust)
 labels_to_id = {e["name"]: e["id"] for e in available}
