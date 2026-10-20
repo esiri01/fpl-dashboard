@@ -20,12 +20,12 @@ def client():
 
 @responses.activate
 def test_standings_pagination_merges_pages(client, fixtures_dir):
-    url = f"{BASE}/leagues-classic/416802/standings/"
+    url = f"{BASE}/leagues-classic/799250/standings/"
     responses.get(url, json=load(fixtures_dir, "standings_page1.json"),
                   match=[responses.matchers.query_param_matcher({"page_standings": "1"})])
     responses.get(url, json=load(fixtures_dir, "standings_page2.json"),
                   match=[responses.matchers.query_param_matcher({"page_standings": "2"})])
-    league, managers = client.league_standings(416802)
+    league, managers = client.league_standings(799250)
     assert league["name"] == "Mech Peeps"
     assert league["start_event"] == 1
     assert [m["entry"] for m in managers] == [101, 102, 103]
