@@ -1,0 +1,22 @@
+[theme]
+base = "light"
+primaryColor = "#1F7A4D"
+backgroundColor = "#F4F5F1"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#15201A"
+borderColor = "#E1E4DE"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap, sans-serif"
+headingFont = "Space Grotesk:https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap, sans-serif"
+baseRadius = "0.6rem"
+
+[theme.sidebar]
+backgroundColor = "#10241A"
+secondaryBackgroundColor = "#173226"
+textColor = "#E6EEE8"
+borderColor = "#2E4A3B"
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false
