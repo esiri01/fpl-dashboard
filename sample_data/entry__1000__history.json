@@ -1,0 +1,134 @@
+{
+ "current": [
+  {
+   "event": 1,
+   "points": 67,
+   "total_points": 67,
+   "rank": 1519384,
+   "rank_sort": 1519384,
+   "overall_rank": 1519384,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 2
+  },
+  {
+   "event": 2,
+   "points": 57,
+   "total_points": 124,
+   "rank": 1416858,
+   "rank_sort": 1416858,
+   "overall_rank": 1416858,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 7
+  },
+  {
+   "event": 3,
+   "points": 74,
+   "total_points": 198,
+   "rank": 1518291,
+   "rank_sort": 1518291,
+   "overall_rank": 1518291,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 12
+  },
+  {
+   "event": 4,
+   "points": 49,
+   "total_points": 247,
+   "rank": 1385046,
+   "rank_sort": 1385046,
+   "overall_rank": 1385046,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 0
+  },
+  {
+   "event": 5,
+   "points": 62,
+   "total_points": 309,
+   "rank": 1188882,
+   "rank_sort": 1188882,
+   "overall_rank": 1188882,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 13
+  },
+  {
+   "event": 6,
+   "points": 71,
+   "total_points": 380,
+   "rank": 1266376,
+   "rank_sort": 1266376,
+   "overall_rank": 1266376,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 0
+  },
+  {
+   "event": 7,
+   "points": 24,
+   "total_points": 404,
+   "rank": 1105308,
+   "rank_sort": 1105308,
+   "overall_rank": 1105308,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 7
+  },
+  {
+   "event": 8,
+   "points": 69,
+   "total_points": 469,
+   "rank": 1246956,
+   "rank_sort": 1246956,
+   "overall_rank": 1246956,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 2,
+   "event_transfers_cost": 4,
+   "points_on_bench": 15
+  }
+ ],
+ "past": [],
+ "chips": [
+  {
+   "name": "3xc",
+   "time": "2026-09-01T10:00:00Z",
+   "event": 3
+  },
+  {
+   "name": "freehit",
+   "time": "2026-09-01T10:00:00Z",
+   "event": 5
+  },
+  {
+   "name": "bboost",
+   "time": "2026-09-01T10:00:00Z",
+   "event": 6
+  }
+ ]
+}

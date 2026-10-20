@@ -1,0 +1,19 @@
+[project]
+name = "fpl-dashboard"
+version = "2.0.0"
+description = "Streamlit dashboard for the Mech Peeps Fantasy Premier League mini-league"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["fpl"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

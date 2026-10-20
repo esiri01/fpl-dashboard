@@ -1,0 +1,124 @@
+{
+ "current": [
+  {
+   "event": 1,
+   "points": 64,
+   "total_points": 60,
+   "rank": 654447,
+   "rank_sort": 654447,
+   "overall_rank": 654447,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 2,
+   "event_transfers_cost": 4,
+   "points_on_bench": 7
+  },
+  {
+   "event": 2,
+   "points": 51,
+   "total_points": 111,
+   "rank": 601191,
+   "rank_sort": 601191,
+   "overall_rank": 601191,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 9
+  },
+  {
+   "event": 3,
+   "points": 57,
+   "total_points": 168,
+   "rank": 535839,
+   "rank_sort": 535839,
+   "overall_rank": 535839,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 4
+  },
+  {
+   "event": 4,
+   "points": 46,
+   "total_points": 210,
+   "rank": 511202,
+   "rank_sort": 511202,
+   "overall_rank": 511202,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 2,
+   "event_transfers_cost": 4,
+   "points_on_bench": 4
+  },
+  {
+   "event": 5,
+   "points": 43,
+   "total_points": 253,
+   "rank": 449881,
+   "rank_sort": 449881,
+   "overall_rank": 449881,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 1
+  },
+  {
+   "event": 6,
+   "points": 61,
+   "total_points": 314,
+   "rank": 380309,
+   "rank_sort": 380309,
+   "overall_rank": 380309,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 10
+  },
+  {
+   "event": 7,
+   "points": 36,
+   "total_points": 350,
+   "rank": 376449,
+   "rank_sort": 376449,
+   "overall_rank": 376449,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 4
+  },
+  {
+   "event": 8,
+   "points": 61,
+   "total_points": 411,
+   "rank": 370503,
+   "rank_sort": 370503,
+   "overall_rank": 370503,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 2
+  }
+ ],
+ "past": [],
+ "chips": [
+  {
+   "name": "wildcard",
+   "time": "2026-09-01T10:00:00Z",
+   "event": 5
+  }
+ ]
+}

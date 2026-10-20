@@ -1,0 +1,124 @@
+{
+ "current": [
+  {
+   "event": 1,
+   "points": 49,
+   "total_points": 49,
+   "rank": 114647,
+   "rank_sort": 114647,
+   "overall_rank": 114647,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 12
+  },
+  {
+   "event": 2,
+   "points": 41,
+   "total_points": 90,
+   "rank": 113709,
+   "rank_sort": 113709,
+   "overall_rank": 113709,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 8
+  },
+  {
+   "event": 3,
+   "points": 66,
+   "total_points": 156,
+   "rank": 125001,
+   "rank_sort": 125001,
+   "overall_rank": 125001,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 14
+  },
+  {
+   "event": 4,
+   "points": 53,
+   "total_points": 209,
+   "rank": 106610,
+   "rank_sort": 106610,
+   "overall_rank": 106610,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 6
+  },
+  {
+   "event": 5,
+   "points": 51,
+   "total_points": 256,
+   "rank": 103052,
+   "rank_sort": 103052,
+   "overall_rank": 103052,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 2,
+   "event_transfers_cost": 4,
+   "points_on_bench": 1
+  },
+  {
+   "event": 6,
+   "points": 43,
+   "total_points": 299,
+   "rank": 106425,
+   "rank_sort": 106425,
+   "overall_rank": 106425,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 5
+  },
+  {
+   "event": 7,
+   "points": 52,
+   "total_points": 351,
+   "rank": 106564,
+   "rank_sort": 106564,
+   "overall_rank": 106564,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 4
+  },
+  {
+   "event": 8,
+   "points": 56,
+   "total_points": 407,
+   "rank": 110888,
+   "rank_sort": 110888,
+   "overall_rank": 110888,
+   "percentile_rank": 20,
+   "bank": 5,
+   "value": 1000,
+   "event_transfers": 0,
+   "event_transfers_cost": 0,
+   "points_on_bench": 12
+  }
+ ],
+ "past": [],
+ "chips": [
+  {
+   "name": "3xc",
+   "time": "2026-09-01T10:00:00Z",
+   "event": 3
+  }
+ ]
+}

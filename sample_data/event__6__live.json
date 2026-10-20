@@ -1,0 +1,52 @@
+{
+ "elements": [
+  {
+   "id": 1,
+   "stats": {
+    "minutes": 90,
+    "total_points": 12
+   },
+   "explain": []
+  },
+  {
+   "id": 2,
+   "stats": {
+    "minutes": 90,
+    "total_points": 2
+   },
+   "explain": []
+  },
+  {
+   "id": 3,
+   "stats": {
+    "minutes": 90,
+    "total_points": 1
+   },
+   "explain": []
+  },
+  {
+   "id": 4,
+   "stats": {
+    "minutes": 90,
+    "total_points": 1
+   },
+   "explain": []
+  },
+  {
+   "id": 5,
+   "stats": {
+    "minutes": 90,
+    "total_points": 3
+   },
+   "explain": []
+  },
+  {
+   "id": 6,
+   "stats": {
+    "minutes": 90,
+    "total_points": 3
+   },
+   "explain": []
+  }
+ ]
+}

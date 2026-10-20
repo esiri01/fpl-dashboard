@@ -1,0 +1,7 @@
+{
+  "league": {"id": 416802, "name": "Mech Peeps", "start_event": 1},
+  "standings": {"has_next": false, "page": 2, "results": [
+    {"entry": 103, "entry_name": "Flux Capacitors", "player_name": "Cy N", "rank": 3, "last_rank": 3, "total": 470}
+  ]},
+  "new_entries": {"has_next": false, "page": 1, "results": []}
+}

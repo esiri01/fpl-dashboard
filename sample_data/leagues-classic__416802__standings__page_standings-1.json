@@ -1,0 +1,150 @@
+{
+ "league": {
+  "id": 416802,
+  "name": "Mech Peeps",
+  "start_event": 1
+ },
+ "standings": {
+  "has_next": false,
+  "page": 1,
+  "results": [
+   {
+    "id": 1004,
+    "event_total": 60,
+    "player_name": "Femi D.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 498,
+    "entry": 1004,
+    "entry_name": "Thermo Dynamos"
+   },
+   {
+    "id": 1009,
+    "event_total": 59,
+    "player_name": "Bisi M.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 498,
+    "entry": 1009,
+    "entry_name": "Heat Sinkers"
+   },
+   {
+    "id": 1005,
+    "event_total": 44,
+    "player_name": "Ngozi U.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 483,
+    "entry": 1005,
+    "entry_name": "Stress Strain XI"
+   },
+   {
+    "id": 1002,
+    "event_total": 49,
+    "player_name": "Amaka N.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 482,
+    "entry": 1002,
+    "entry_name": "Flux Capacitors"
+   },
+   {
+    "id": 1001,
+    "event_total": 59,
+    "player_name": "Chidi O.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 472,
+    "entry": 1001,
+    "entry_name": "Torque United"
+   },
+   {
+    "id": 1000,
+    "event_total": 65,
+    "player_name": "Tunde A.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 469,
+    "entry": 1000,
+    "entry_name": "Gear Ratio FC"
+   },
+   {
+    "id": 1010,
+    "event_total": 61,
+    "player_name": "Obi P.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 467,
+    "entry": 1010,
+    "entry_name": "Shear Force"
+   },
+   {
+    "id": 1007,
+    "event_total": 73,
+    "player_name": "Ifeoma K.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 459,
+    "entry": 1007,
+    "entry_name": "Fluid Mechanix"
+   },
+   {
+    "id": 1008,
+    "event_total": 77,
+    "player_name": "Dayo L.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 459,
+    "entry": 1008,
+    "entry_name": "Cam & Follower"
+   },
+   {
+    "id": 1011,
+    "event_total": 52,
+    "player_name": "Lanre T.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 425,
+    "entry": 1011,
+    "entry_name": "Piston Broke"
+   },
+   {
+    "id": 1003,
+    "event_total": 61,
+    "player_name": "Kelechi E.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 411,
+    "entry": 1003,
+    "entry_name": "Bernoulli Boys"
+   },
+   {
+    "id": 1006,
+    "event_total": 56,
+    "player_name": "Segun B.",
+    "rank": 0,
+    "last_rank": 0,
+    "rank_sort": 0,
+    "total": 407,
+    "entry": 1006,
+    "entry_name": "Moment of Inertia"
+   }
+  ]
+ },
+ "new_entries": {
+  "has_next": false,
+  "page": 1,
+  "results": []
+ }
+}
