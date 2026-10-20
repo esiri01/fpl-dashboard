@@ -1,0 +1,8 @@
+{
+  "league": {"id": 416802, "name": "Mech Peeps", "start_event": 1},
+  "standings": {"has_next": true, "page": 1, "results": [
+    {"entry": 101, "entry_name": "Gear Ratio FC", "player_name": "Ada L", "rank": 1, "last_rank": 2, "total": 500},
+    {"entry": 102, "entry_name": "Torque United", "player_name": "Bo M", "rank": 2, "last_rank": 1, "total": 498}
+  ]},
+  "new_entries": {"has_next": false, "page": 1, "results": []}
+}

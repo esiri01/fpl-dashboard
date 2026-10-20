@@ -1,0 +1,558 @@
+{
+ "events": [
+  {
+   "id": 1,
+   "name": "Gameweek 1",
+   "deadline_time": "2026-08-08T17:30:00Z",
+   "average_entry_score": 54,
+   "highest_score": 120,
+   "finished": true,
+   "data_checked": true,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 2,
+   "name": "Gameweek 2",
+   "deadline_time": "2026-08-15T17:30:00Z",
+   "average_entry_score": 49,
+   "highest_score": 120,
+   "finished": true,
+   "data_checked": true,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 3,
+   "name": "Gameweek 3",
+   "deadline_time": "2026-08-22T17:30:00Z",
+   "average_entry_score": 61,
+   "highest_score": 120,
+   "finished": true,
+   "data_checked": true,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 4,
+   "name": "Gameweek 4",
+   "deadline_time": "2026-09-02T17:30:00Z",
+   "average_entry_score": 47,
+   "highest_score": 120,
+   "finished": true,
+   "data_checked": true,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 5,
+   "name": "Gameweek 5",
+   "deadline_time": "2026-09-09T17:30:00Z",
+   "average_entry_score": 52,
+   "highest_score": 120,
+   "finished": true,
+   "data_checked": true,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 6,
+   "name": "Gameweek 6",
+   "deadline_time": "2026-09-16T17:30:00Z",
+   "average_entry_score": 58,
+   "highest_score": 120,
+   "finished": true,
+   "data_checked": true,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 7,
+   "name": "Gameweek 7",
+   "deadline_time": "2026-09-23T17:30:00Z",
+   "average_entry_score": 45,
+   "highest_score": 120,
+   "finished": true,
+   "data_checked": true,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": true
+  },
+  {
+   "id": 8,
+   "name": "Gameweek 8",
+   "deadline_time": "2026-09-03T17:30:00Z",
+   "average_entry_score": 56,
+   "highest_score": 120,
+   "finished": false,
+   "data_checked": false,
+   "is_current": true,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 9,
+   "name": "Gameweek 9",
+   "deadline_time": "2027-02-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": true,
+   "is_previous": false
+  },
+  {
+   "id": 10,
+   "name": "Gameweek 10",
+   "deadline_time": "2027-02-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 11,
+   "name": "Gameweek 11",
+   "deadline_time": "2027-02-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 12,
+   "name": "Gameweek 12",
+   "deadline_time": "2027-02-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 13,
+   "name": "Gameweek 13",
+   "deadline_time": "2027-02-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 14,
+   "name": "Gameweek 14",
+   "deadline_time": "2027-02-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 15,
+   "name": "Gameweek 15",
+   "deadline_time": "2027-02-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 16,
+   "name": "Gameweek 16",
+   "deadline_time": "2027-03-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 17,
+   "name": "Gameweek 17",
+   "deadline_time": "2027-03-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 18,
+   "name": "Gameweek 18",
+   "deadline_time": "2027-03-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 19,
+   "name": "Gameweek 19",
+   "deadline_time": "2027-03-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 20,
+   "name": "Gameweek 20",
+   "deadline_time": "2027-03-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 21,
+   "name": "Gameweek 21",
+   "deadline_time": "2027-03-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 22,
+   "name": "Gameweek 22",
+   "deadline_time": "2027-03-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 23,
+   "name": "Gameweek 23",
+   "deadline_time": "2027-03-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 24,
+   "name": "Gameweek 24",
+   "deadline_time": "2027-04-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 25,
+   "name": "Gameweek 25",
+   "deadline_time": "2027-04-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 26,
+   "name": "Gameweek 26",
+   "deadline_time": "2027-04-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 27,
+   "name": "Gameweek 27",
+   "deadline_time": "2027-04-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 28,
+   "name": "Gameweek 28",
+   "deadline_time": "2027-04-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 29,
+   "name": "Gameweek 29",
+   "deadline_time": "2027-04-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 30,
+   "name": "Gameweek 30",
+   "deadline_time": "2027-04-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 31,
+   "name": "Gameweek 31",
+   "deadline_time": "2027-04-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 32,
+   "name": "Gameweek 32",
+   "deadline_time": "2027-05-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 33,
+   "name": "Gameweek 33",
+   "deadline_time": "2027-05-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 34,
+   "name": "Gameweek 34",
+   "deadline_time": "2027-05-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 35,
+   "name": "Gameweek 35",
+   "deadline_time": "2027-05-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 36,
+   "name": "Gameweek 36",
+   "deadline_time": "2027-05-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 37,
+   "name": "Gameweek 37",
+   "deadline_time": "2027-05-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  },
+  {
+   "id": 38,
+   "name": "Gameweek 38",
+   "deadline_time": "2027-05-01T17:30:00Z",
+   "average_entry_score": 0,
+   "highest_score": null,
+   "finished": false,
+   "data_checked": false,
+   "is_current": false,
+   "is_next": false,
+   "is_previous": false
+  }
+ ],
+ "elements": [
+  {
+   "id": 1,
+   "web_name": "Haaland",
+   "team": 1,
+   "element_type": 4
+  },
+  {
+   "id": 2,
+   "web_name": "Salah",
+   "team": 2,
+   "element_type": 4
+  },
+  {
+   "id": 3,
+   "web_name": "Palmer",
+   "team": 3,
+   "element_type": 4
+  },
+  {
+   "id": 4,
+   "web_name": "Saka",
+   "team": 4,
+   "element_type": 4
+  },
+  {
+   "id": 5,
+   "web_name": "Isak",
+   "team": 5,
+   "element_type": 4
+  },
+  {
+   "id": 6,
+   "web_name": "Watkins",
+   "team": 6,
+   "element_type": 4
+  }
+ ],
+ "teams": [],
+ "total_players": 11420000,
+ "chips": [
+  {
+   "id": 1,
+   "name": "wildcard",
+   "number": 1,
+   "start_event": 1,
+   "stop_event": 19
+  },
+  {
+   "id": 2,
+   "name": "freehit",
+   "number": 1,
+   "start_event": 1,
+   "stop_event": 19
+  },
+  {
+   "id": 3,
+   "name": "bboost",
+   "number": 1,
+   "start_event": 1,
+   "stop_event": 19
+  },
+  {
+   "id": 4,
+   "name": "3xc",
+   "number": 1,
+   "start_event": 1,
+   "stop_event": 19
+  },
+  {
+   "id": 5,
+   "name": "wildcard",
+   "number": 1,
+   "start_event": 20,
+   "stop_event": 38
+  },
+  {
+   "id": 6,
+   "name": "freehit",
+   "number": 1,
+   "start_event": 20,
+   "stop_event": 38
+  },
+  {
+   "id": 7,
+   "name": "bboost",
+   "number": 1,
+   "start_event": 20,
+   "stop_event": 38
+  },
+  {
+   "id": 8,
+   "name": "3xc",
+   "number": 1,
+   "start_event": 20,
+   "stop_event": 38
+  }
+ ]
+}
