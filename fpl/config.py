@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 
-DEFAULT_LEAGUE_ID = "416802"  # Mech Peeps
+DEFAULT_LEAGUE_ID = "799250"  # Mech Peeps
 BASE_URL = "https://fantasy.premierleague.com/api"
 
 # FPL sometimes rejects the default python-requests user agent.

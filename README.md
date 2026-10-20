@@ -1,6 +1,6 @@
 # 🏆 Mech Peeps FPL Dashboard
 
-A Streamlit dashboard for the **Mech Peeps** Fantasy Premier League mini-league (league `416802`):
+A Streamlit dashboard for the **Mech Peeps** Fantasy Premier League mini-league (league `799250`):
 weekly results, the season-long race, and a page for every manager.
 
 | Gameweek | Season | Manager |
@@ -42,13 +42,13 @@ FPL_FIXTURES_DIR=sample_data streamlit run fpl_dashboard.py
 
 ## League ID
 
-The app is set up for Mech Peeps (`416802`). To point it elsewhere, use either of these:
+The app is set up for Mech Peeps (`799250`). To point it elsewhere, use either of these:
 
 - `.streamlit/secrets.toml` → `LEAGUE_ID = "123456"` (see `secrets.toml.example`), or
 - environment variable `FPL_LEAGUE_ID=123456`.
 
 Your league ID is the number in the league's URL on the FPL site:
-`fantasy.premierleague.com/leagues/416802/standings/c`.
+`fantasy.premierleague.com/leagues/799250/standings/c`.
 
 ## Deploy (Streamlit Community Cloud, free)
 

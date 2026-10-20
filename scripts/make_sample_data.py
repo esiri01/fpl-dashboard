@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from fpl.api import fixture_name  # noqa: E402
 
 OUT = Path(__file__).resolve().parents[1] / "sample_data"
-LEAGUE_ID = 416802
+LEAGUE_ID = 799250
 GWS = 8  # GW8 is "current" (live), GW1-7 finished
 
 MANAGERS = [
