@@ -1,4 +1,6 @@
-"""Mech Peeps FPL dashboard — Streamlit entry point.
+"""FPL classic-league dashboard — Streamlit entry point.
+
+The league comes from the LEAGUE_ID secret / FPL_LEAGUE_ID env var (default: Mech Peeps).
 
 Run locally:  streamlit run fpl_dashboard.py
 """
@@ -14,7 +16,7 @@ from fpl.api import FPLError, NotFound
 from fpl.ui import Context, e, html, inject_css
 from fpl.views import gameweek, manager, season
 
-st.set_page_config(page_title="Mech Peeps FPL", page_icon="🏆", layout="wide")
+st.set_page_config(page_title="FPL League Dashboard", page_icon="🏆", layout="wide")
 inject_css()
 
 LEAGUE_ID = config.get_league_id()
@@ -34,11 +36,14 @@ except NotFound:
 except FPLError as exc:
     fail(f"Couldn't load data from the FPL website: {exc} Try **Refresh data** in a minute.")
 
+LEAGUE_NAME = league.get("name") or f"League {LEAGUE_ID}"
+st.set_page_config(page_title=f"{LEAGUE_NAME} FPL")
+
 gws = data.available_gameweeks(boot["events"])
 
 # ---------------------------------------------------------------- sidebar
 with st.sidebar:
-    st.markdown("## 🏆 Mech Peeps FPL")
+    st.markdown(f"## 🏆 {LEAGUE_NAME} FPL")
     if not gws:
         st.caption("The season hasn't started yet.")
     else:
@@ -98,7 +103,7 @@ ctx = Context(
 left, right = st.columns([3, 2])
 with left:
     html(f'<div class="pf-eyebrow">Classic league · {e(LEAGUE_ID)}</div>')
-    st.title(league.get("name") or "Mech Peeps")
+    st.title(LEAGUE_NAME)
 with right:
     html(
         '<div class="pf-chips">'
