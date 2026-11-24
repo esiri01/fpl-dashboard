@@ -52,7 +52,9 @@ The page title and sidebar use the league's name from FPL, so nothing else needs
 ### Dashboards for more than one league
 
 Use this same repo for every league. On Streamlit Community Cloud, create one app per league
-(same repo, branch and main file, a different app URL), and in each app's
+(same repo and branch, a different app URL). Streamlit allows only one app per
+repo + branch + main file, so use `fpl_dashboard.py` for the first league and
+`league_dashboard.py` (a thin wrapper around it) for the next, and in each app's
 *Advanced settings → Secrets* put that league's ID, e.g. `LEAGUE_ID = "123456"`.
 Every push to `main` updates all of them.
 
