@@ -47,6 +47,15 @@ The app is set up for Mech Peeps (`799250`). To point it elsewhere, use either o
 - `.streamlit/secrets.toml` → `LEAGUE_ID = "123456"` (see `secrets.toml.example`), or
 - environment variable `FPL_LEAGUE_ID=123456`.
 
+The page title and sidebar use the league's name from FPL, so nothing else needs changing.
+
+### Dashboards for more than one league
+
+Use this same repo for every league. On Streamlit Community Cloud, create one app per league
+(same repo, branch and main file, a different app URL), and in each app's
+*Advanced settings → Secrets* put that league's ID, e.g. `LEAGUE_ID = "123456"`.
+Every push to `main` updates all of them.
+
 Your league ID is the number in the league's URL on the FPL site:
 `fantasy.premierleague.com/leagues/799250/standings/c`.
 
